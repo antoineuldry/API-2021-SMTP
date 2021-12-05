@@ -1,9 +1,9 @@
-smtpServerDomain = getPrank.ch
 smtpServerAddress = 127.0.0.1
 smtpServerPort = 2021
 
 nbOfGroups = 5
 
-victims = ..\src\main\ressources\victims.txt
+victims = ./src/main/ressources/victims.txt
 
-messages = ..\src\main\ressources\Messages
+message1 = ./src/main/ressources/Messages/Message1.txt
+message2 = ./src/main/ressources/Messages/Message2.txt
