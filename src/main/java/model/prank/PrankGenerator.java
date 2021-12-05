@@ -3,7 +3,6 @@ package model.prank;
 import config.IConfigManager;
 import model.mail.Group;
 import model.mail.Person;
-import smtp.SmtpClient;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,23 +12,23 @@ import java.util.logging.Logger;
 public class PrankGenerator {
     private static final Logger LOG = Logger.getLogger(PrankGenerator.class.getName());
 
-    private IConfigManager configManager;
+    private final IConfigManager configManager;
 
     public PrankGenerator(IConfigManager configManager) {
         this.configManager = configManager;
     }
 
     public List<Prank> generatePranks() {
-        List<Prank> pranks = new ArrayList<Prank>();
+        List<Prank> pranks = new ArrayList<>();
 
         List<String> messages = configManager.getMessages();
         int messageIndex = 0;
 
         int numberOfGroups = configManager.getNumberOfGroups();
         int numberOfVictims = configManager.getVictims().size();
-        // There should be at least 5 victims per group
-        if(numberOfVictims / numberOfGroups < 5) {
-            numberOfGroups = numberOfVictims / 5;
+        // There should be at least 3 victims per group
+        if(numberOfVictims / numberOfGroups < 3) {
+            numberOfGroups = numberOfVictims / 3;
             LOG.warning("Not enough victims to generate the desired number of groups (max groups " + numberOfGroups + ")");
         }
 
@@ -55,9 +54,9 @@ public class PrankGenerator {
     }
 
     public List<Group> generateGroups(List<Person> victims, int numberOfGroups) {
-        List<Person> availableVictims = new ArrayList<Person>(victims);
+        List<Person> availableVictims = new ArrayList<>(victims);
         Collections.shuffle(availableVictims);
-        List<Group> groups = new ArrayList<Group>();
+        List<Group> groups = new ArrayList<>();
         for (int i = 0; i < numberOfGroups; ++i) {
             Group group = new Group();
             groups.add(group);

@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 public class Prank {
     private Person victimSender;
-    private final List<Person> victimRecipients = new ArrayList<Person>();
-    private final List<Person> witnessRecipients = new ArrayList<Person>();
+    private final List<Person> victimRecipients = new ArrayList<>();
+    private final List<Person> witnessRecipients = new ArrayList<>();
     private String message;
 
     public Person getVictimSender() {
@@ -50,7 +50,7 @@ public class Prank {
 
         msg.setMessageBody(this.message + "\r\n" + victimSender.getFirstName());
         String[] to = victimRecipients.stream()
-                .map(p -> p.getMailAddress())
+                .map(Person::getMailAddress)
                 .collect(Collectors.toList())
                 .toArray(new String[]{});
         //msg.setCc(cc);

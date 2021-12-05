@@ -33,7 +33,7 @@ public class ConfigManager implements IConfigManager{
         this.smtpServerPort = Integer.parseInt(properties.getProperty("smtpServerPort"));
         this.numberOfGroups = Integer.parseInt(properties.getProperty("numberOfGroups"));
 
-        this.witnessesToCC = new ArrayList<Person>();
+        this.witnessesToCC = new ArrayList<>();
         String witnesses = properties.getProperty("witnessesToCC");
         String[] witnessesAddresses = witnesses.split(",");
         for (String address : witnessesAddresses) {
@@ -46,7 +46,7 @@ public class ConfigManager implements IConfigManager{
         try (FileInputStream fis = new FileInputStream(fileName)) {
             InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
             try (BufferedReader reader = new BufferedReader(isr)) {
-                result = new ArrayList<Person>();
+                result = new ArrayList<>();
                 String address = reader.readLine();
                 while(address != null) {
                     result.add(new Person(address));

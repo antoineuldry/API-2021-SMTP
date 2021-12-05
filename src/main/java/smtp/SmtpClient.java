@@ -14,8 +14,8 @@ public class SmtpClient implements ISmtpClient{
     private String CRLF = "\r\n";
     private static final Logger LOG = Logger.getLogger(SmtpClient.class.getName());
 
-    private String smtpServerDomain;
-    private int smtpServerPort;
+    private final String smtpServerDomain;
+    private final int smtpServerPort;
 
     private Socket socket;
     private PrintWriter writer;
