@@ -1,4 +1,9 @@
 package model.prank;
+import model.mail.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Prank {
     private Person victimSender;

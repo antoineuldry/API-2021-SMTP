@@ -94,4 +94,5 @@ public class ConfigManager implements IConfigManager{
         else
             return message2;
     }
+
 }
