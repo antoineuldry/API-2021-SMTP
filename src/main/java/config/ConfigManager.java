@@ -1,24 +1,28 @@
 package config;
 
-import model.Mail;
+import model.mail.Mail;
+import model.mail.Person;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 public class ConfigManager implements IConfigManager{
     private String smtpServerAddress;
     private int smtpServerPort;
     private final List<Person> victims;
     private final List<String> messages;
+    private final List<String> message2;
     private int numberOfGroups;
     private List<Person> witnessesToCC;
 
     public ConfigManager() throws IOException {
         victims = loadAddressesFromFile("./ressources/victims.txt");
-        message1 = loadAddressesFromFile("./ressources/Messages/message1.txt");
-        message2 = loadAddressesFromFile("./ressources/Messages/message2.txt");
+        messages = loadMessagesFromFile("./ressources/Messages/message1.txt");
+        message2 = loadMessagesFromFile("./ressources/Messages/message2.txt");
         loadPropteries("./ressources/Configuration.properties");
     }
 
@@ -41,7 +45,7 @@ public class ConfigManager implements IConfigManager{
     private List<Person> loadAddressesFromFile(String fileName) throws IOException {
         List<Person> result;
         try (FileInputStream fis = new FileInputStream(fileName)) {
-            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+            InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
             try (BufferedReader reader = new BufferedReader(isr)) {
                 result = new ArrayList<Person>();
                 String address = reader.readLine();
@@ -57,9 +61,9 @@ public class ConfigManager implements IConfigManager{
     private List<String> loadMessagesFromFile(String fileName) throws IOException {
         List<String> result;
         try (FileInputStream fis = new FileInputStream(fileName)) {
-            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+            InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
             try (BufferedReader reader = new BufferedReader(isr)) {
-                result = new ArrayList<Person>();
+                result = new ArrayList<String>();
                 String line = reader.readLine();
                 while(line != null) {
                     StringBuilder body = new StringBuilder();
@@ -82,8 +86,12 @@ public class ConfigManager implements IConfigManager{
     }
 
     @Override
-
     public List<String> getMessages() {
-        return messages;
+        Random random = new Random();
+        int x = random.nextInt(10);
+        if ((x % 2) == 0)
+            return messages;
+        else
+            return message2;
     }
 }
