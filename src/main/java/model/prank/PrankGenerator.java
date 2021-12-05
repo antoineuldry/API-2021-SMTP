@@ -1,8 +1,11 @@
 package model.prank;
 
 import config.IConfigManager;
+import model.mail.Group;
+import model.mail.Person;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PrankGenerator {

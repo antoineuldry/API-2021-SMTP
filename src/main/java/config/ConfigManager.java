@@ -1,6 +1,5 @@
 package config;
 
-import model.mail.Mail;
 import model.mail.Person;
 
 import java.io.*;
@@ -93,5 +92,29 @@ public class ConfigManager implements IConfigManager{
             return messages;
         else
             return message2;
+    }
+
+    @Override
+    public String getSmtpServerAddress() {
+        return smtpServerAddress;
+    }
+
+    @Override
+    public int getSmtpServerPort() {
+        return smtpServerPort;
+    }
+
+    @Override
+    public List<String> getMessage2() {
+        return message2;
+    }
+
+    @Override
+    public int getNumberOfGroups() {
+        return numberOfGroups;
+    }
+    @Override
+    public List<Person> getWitnessesToCC() {
+        return witnessesToCC;
     }
 }
