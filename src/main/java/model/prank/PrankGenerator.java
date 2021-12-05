@@ -3,12 +3,16 @@ package model.prank;
 import config.IConfigManager;
 import model.mail.Group;
 import model.mail.Person;
+import smtp.SmtpClient;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class PrankGenerator {
+    private static final Logger LOG = Logger.getLogger(PrankGenerator.class.getName());
+
     private IConfigManager configManager;
 
     public PrankGenerator(IConfigManager configManager) {
@@ -52,7 +56,7 @@ public class PrankGenerator {
 
     public List<Group> generateGroups(List<Person> victims, int numberOfGroups) {
         List<Person> availableVictims = new ArrayList<Person>(victims);
-        Collecitons.shuffle(availableVictims);
+        Collections.shuffle(availableVictims);
         List<Group> groups = new ArrayList<Group>();
         for (int i = 0; i < numberOfGroups; ++i) {
             Group group = new Group();

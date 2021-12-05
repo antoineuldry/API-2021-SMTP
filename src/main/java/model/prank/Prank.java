@@ -1,14 +1,11 @@
 package model.prank;
+
 import model.mail.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-
 import model.mail.Person;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Prank {
     private Person victimSender;
@@ -36,7 +33,7 @@ public class Prank {
         victimRecipients.addAll(victims);
     }
 
-    public void addVictimRecipients(List<Person> witnesses) {
+    public void addWitnessRecipients(List<Person> witnesses) {
         victimRecipients.addAll(witnesses);
     }
 
@@ -48,16 +45,16 @@ public class Prank {
         return witnessRecipients;
     }
 
-    public Message generateMailMessage() {
-        Message msg = new Message();
+    public Mail generateMailMessage() {
+        Mail msg = new Mail();
 
-        msg.setBody(this.message + "\r\n" + victimSender.getFirstName());
+        msg.setMessageBody(this.message + "\r\n" + victimSender.getFirstName());
         String[] to = victimRecipients.stream()
-                .map(p -> p.getAddress())
+                .map(p -> p.getMailAddress())
                 .collect(Collectors.toList())
                 .toArray(new String[]{});
-        msg.setCc(cc);
-        msg.setFrom(victimSender.getAddress());
+        //msg.setCc(cc);
+        msg.setFrom(victimSender.getMailAddress());
         return msg;
     }
 }
