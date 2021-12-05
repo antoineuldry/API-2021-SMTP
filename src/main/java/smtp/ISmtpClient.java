@@ -1,8 +1,7 @@
 package smtp;
 
-import model.Mail;
+import model.mail.Mail;
 import java.io.IOException;
-import java.net.InetAddress;
 
 public interface ISmtpClient {
 

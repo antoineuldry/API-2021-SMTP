@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
-import model.Mail;
+import model.mail.Mail;
 
 public class SmtpClient implements ISmtpClient{
 
@@ -26,6 +26,7 @@ public class SmtpClient implements ISmtpClient{
         this.smtpServerPort = smtpServerPort;
     }
 
+    @Override
     public void sendMail(Mail mail) throws IOException{
         LOG.info("Sending mail via SMTP");
         Socket socket = new Socket(smtpServerDomain, smtpServerPort);
@@ -71,6 +72,13 @@ public class SmtpClient implements ISmtpClient{
          writer.write(CRLF);
 
          writer.flush();
+
+         writer.write(mail.getSubject());
+         writer.write(CRLF);
+         writer.flush();
+         line = reader.readLine();
+         LOG.info(line);
+
          LOG.info(mail.getMessageBody());
          writer.write(mail.getMessageBody());
          writer.write(CRLF);
@@ -79,8 +87,10 @@ public class SmtpClient implements ISmtpClient{
          writer.flush();
          line = reader.readLine();
          LOG.info(line);
+
          writer.write("QUIT" + CRLF);
          writer.flush();
+
          writer.close();
          reader.close();
          socket.close();

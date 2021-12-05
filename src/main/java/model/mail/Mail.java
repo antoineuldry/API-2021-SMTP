@@ -1,4 +1,4 @@
-package model;
+package model.mail;
 
 public class Mail {
 
