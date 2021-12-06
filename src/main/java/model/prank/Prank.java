@@ -12,6 +12,7 @@ public class Prank {
     private final List<Person> victimRecipients = new ArrayList<>();
     private final List<Person> witnessRecipients = new ArrayList<>();
     private String message;
+    private String subject;
 
     public Person getVictimSender() {
         return victimSender;
@@ -27,6 +28,14 @@ public class Prank {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getSubject() {
+        return subject;
     }
 
     public void addVictimRecipients(List<Person> victims) {
@@ -61,7 +70,8 @@ public class Prank {
         msg.setCc(cc);
         msg.setFrom(victimSender.getMailAddress());
         msg.setTo(to);
-        msg.setSubject("IMPORTANT");
+        // TODO : A changer ? pas en dur ? ;)
+        msg.setSubject("TO CHANGE");
 
         return msg;
     }

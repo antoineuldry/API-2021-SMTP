@@ -85,7 +85,7 @@ public class SmtpClient implements ISmtpClient{
 
         if(mail.getCc().length != 0) {
             writer.write("Cc : " + mail.getCc()[0]);
-            for (int j = 0; j < mail.getCc().length; ++j) {
+            for (int j = 1; j < mail.getCc().length; ++j) {
                 writer.write(", " + mail.getCc()[j]);
             }
         }

@@ -15,12 +15,18 @@ public class ConfigManager implements IConfigManager{
     private final List<String> messages;
     private int numberOfGroups;
     private List<Person> witnessesToCC;
-    private static  boolean count = false;
+    private static boolean count = false;
 
     public ConfigManager() throws IOException {
-        victims = loadAddressesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Victims");
-        messages = loadMessagesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Messages");
-        loadProperties("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Configuration");
+        // MacOS Paths
+        victims = loadAddressesFromFile("./config/resources/Victims");
+        messages = loadMessagesFromFile("./config/resources/Messages");
+        loadProperties("./config/resources/Configuration");
+
+        // Windows Paths
+        //victims = loadAddressesFromFile("./config/resources/Victims");
+        //messages = loadMessagesFromFile("./config/resources/Messages");
+        //loadProperties("./config/resources/Configuration");
     }
 
     private void loadProperties(String fileName) throws IOException {
