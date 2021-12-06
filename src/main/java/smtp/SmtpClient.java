@@ -11,7 +11,7 @@ import model.mail.Mail;
 
 public class SmtpClient implements ISmtpClient{
 
-    private String CRLF = "\r\n";
+    private final String CRLF = "\r\n";
     private static final Logger LOG = Logger.getLogger(SmtpClient.class.getName());
 
     private final String smtpServerDomain;
@@ -68,6 +68,17 @@ public class SmtpClient implements ISmtpClient{
                  writer.write(mail.getTo()[i] + ", ");
              else
                  writer.write(mail.getTo()[i]);
+         }
+         writer.write(CRLF);
+
+         writer.flush();
+
+         writer.write("CC : ");
+         for (int j = 0; j < mail.getCc().length; ++j){
+             if(j < mail.getCc().length -1){
+                 writer.write(mail.getCc()[j] + ", ");
+             }else
+                 writer.write(mail.getCc()[j]);
          }
          writer.write(CRLF);
 
