@@ -14,14 +14,13 @@ public class ConfigManager implements IConfigManager{
     private int smtpServerPort;
     private final List<Person> victims;
     private final List<String> messages;
-    private final List<String> message2;
     private int numberOfGroups;
     private List<Person> witnessesToCC;
+    private static  boolean count = false;
 
     public ConfigManager() throws IOException {
         victims = loadAddressesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Victims");
         messages = loadMessagesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Messages\\message1");
-        message2 = loadMessagesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Messages\\message2");
         loadProperties("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Configuration");
     }
 
@@ -86,12 +85,7 @@ public class ConfigManager implements IConfigManager{
 
     @Override
     public List<String> getMessages() {
-        Random random = new Random();
-        int x = random.nextInt(10);
-        if ((x % 2) == 0)
-            return messages;
-        else
-            return message2;
+        return messages;
     }
 
     @Override
@@ -102,11 +96,6 @@ public class ConfigManager implements IConfigManager{
     @Override
     public int getSmtpServerPort() {
         return smtpServerPort;
-    }
-
-    @Override
-    public List<String> getMessage2() {
-        return message2;
     }
 
     @Override

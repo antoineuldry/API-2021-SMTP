@@ -25,6 +25,8 @@ public class SmtpClient implements ISmtpClient{
 
     @Override
     public void sendMail(Mail mail) throws IOException{
+        String ERROR = "Communication error with server!";
+
         LOG.info("Sending mail via SMTP");
         Socket socket = new Socket(smtpServerAddress, smtpServerPort);
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
@@ -47,58 +49,75 @@ public class SmtpClient implements ISmtpClient{
             LOG.info(line);
         }
 
-         writer.write("MAIL FROM: ");
-         writer.write(mail.getFrom() + CRLF);
-         writer.flush();
+        writer.write("MAIL FROM:");
+        writer.write(mail.getFrom() + CRLF);
+        writer.flush();
 
-         for(String s : mail.getTo()){
-             writer.write("RCPT TO: " + s + CRLF);
-             writer.flush();
-             line = reader.readLine();
-             LOG.info(line);
-         }
+        line = reader.readLine();
+        LOG.info(line);
+        if(!line.endsWith("OK"))
+            throw new IOException(ERROR);
 
-         writer.write("DATA" + CRLF);
-         writer.flush();
-         line = reader.readLine();
-         LOG.info(line);
+        for(String s : mail.getTo()){
+            writer.write("RCPT TO:" + s + CRLF);
+            writer.flush();
+            line = reader.readLine();
+            LOG.info(line);
+            if(!line.endsWith("OK"))
+                throw new IOException(ERROR);
+        }
 
-         writer.write("Content-Type: text/plain; charset=\"utf-8\"\r\n");
+        writer.write("DATA" + CRLF);
+        writer.flush();
+        line = reader.readLine();
+        LOG.info(line);
 
-         writer.write("From : " + mail.getFrom() + CRLF);
+        if(!line.startsWith("354"))
+            throw new IOException(ERROR);
 
-         writer.write("To : " + mail.getTo()[0]);
-         for (int i = 1; i < mail.getTo().length; ++i){
-             writer.write(", " + mail.getTo()[i]);
-         }
-         writer.write(CRLF);
-         writer.flush();
+        writer.write("Content-Type: text/plain; charset=\"utf-8\"\r\n");
+
+        writer.write("From : " + mail.getFrom() + CRLF);
+
+        writer.write("To : " + mail.getTo()[0]);
+        for (int i = 1; i < mail.getTo().length; ++i){
+            writer.write(", " + mail.getTo()[i]);
+        }
+        writer.write(CRLF);
+        writer.flush();
 
 
-         writer.write("CC : " + mail.getCc()[0]);
-         for (int j = 0; j < mail.getCc().length; ++j){
-             writer.write(", " + mail.getCc()[j]);
-         }
-         writer.write(CRLF);
-         writer.flush();
 
-         writer.write(mail.getSubject() + CRLF);
-         writer.flush();
-         line = reader.readLine();
-         LOG.info(line);
+        writer.write("Cc : " + mail.getCc()[0]);
+        for (int j = 0; j < mail.getCc().length; ++j){
+            writer.write(", " + mail.getCc()[j]);
+        }
+        writer.write(CRLF);
+        writer.flush();
 
-         LOG.info(mail.getMessageBody());
-         writer.write(mail.getMessageBody() + CRLF);
-         writer.write("." + CRLF);
-         writer.flush();
-         line = reader.readLine();
-         LOG.info(line);
+        writer.write(mail.getSubject() + CRLF);
+        writer.flush();
+        line = reader.readLine();
+        LOG.info(line);
 
-         writer.write("QUIT" + CRLF);
-         writer.flush();
+        LOG.info(mail.getMessageBody());
+        writer.write(mail.getMessageBody() + CRLF);
+        writer.write("." + CRLF);
+        writer.flush();
+        line = reader.readLine();
+        LOG.info(line);
 
-         writer.close();
-         reader.close();
-         socket.close();
+        if(!line.endsWith("OK"))
+            throw new IOException(ERROR);
+
+        writer.write("QUIT" + CRLF);
+        writer.flush();
+
+        if(!line.startsWith("221"))
+            throw new IOException(ERROR);
+
+        writer.close();
+        reader.close();
+        socket.close();
     }
 }
