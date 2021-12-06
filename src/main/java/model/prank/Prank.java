@@ -34,7 +34,7 @@ public class Prank {
     }
 
     public void addWitnessRecipients(List<Person> witnesses) {
-        victimRecipients.addAll(witnesses);
+        witnessRecipients.addAll(witnesses);
     }
 
     public List<Person> getVictimRecipients() {
@@ -53,7 +53,12 @@ public class Prank {
                 .map(Person::getMailAddress)
                 .collect(Collectors.toList())
                 .toArray(new String[]{});
-        //msg.setCc(cc);
+        String[] cc = witnessRecipients.stream()
+                .map(Person::getMailAddress)
+                .collect(Collectors.toList())
+                .toArray(new String[]{});
+
+        msg.setCc(cc);
         msg.setFrom(victimSender.getMailAddress());
         msg.setTo(to);
         msg.setSubject("IMPORTANT");

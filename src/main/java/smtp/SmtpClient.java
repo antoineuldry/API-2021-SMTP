@@ -30,6 +30,7 @@ public class SmtpClient implements ISmtpClient{
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
         String CRLF = "\r\n";
         String line = reader.readLine();
+        LOG.info(line);
 
         writer.write("EHLO localhost" + CRLF);
         writer.flush();
@@ -47,16 +48,15 @@ public class SmtpClient implements ISmtpClient{
         writer.flush();
 
         line = reader.readLine();
-        //if(!line.endsWith("OK")) throw new IOException(ERROR);
+        if(!line.startsWith("250")) throw new IOException(ERROR);
 
         for(String to : mail.getTo()){
             writer.write("RCPT TO:" + to + CRLF);
             writer.flush();
             line = reader.readLine();
             LOG.info(line);
-            if(!line.startsWith("250")) {
-                throw new IOException(ERROR);
-            }
+            if(!line.startsWith("250")) throw new IOException(ERROR);
+
         }
 
         for(String cc : mail.getCc()){
@@ -93,6 +93,7 @@ public class SmtpClient implements ISmtpClient{
         writer.flush();
 
         writer.write("Subject : " + String.format(mail.getSubject(), "=?utf-8?B?%s?=", Base64.getEncoder().encodeToString(mail.getSubject().getBytes(StandardCharsets.UTF_8))) + CRLF);
+        writer.write(CRLF);
         writer.flush();
 
         writer.write(mail.getMessageBody() + CRLF);

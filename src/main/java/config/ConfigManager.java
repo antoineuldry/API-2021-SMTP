@@ -18,9 +18,9 @@ public class ConfigManager implements IConfigManager{
     private static  boolean count = false;
 
     public ConfigManager() throws IOException {
-        victims = loadAddressesFromFile("/Users/antoineuldry/Documents/GitHub/API/API-2021-SMTP/config/resources/Victims");
-        messages = loadMessagesFromFile("/Users/antoineuldry/Documents/GitHub/API/API-2021-SMTP/config/resources/Messages");
-        loadProperties("/Users/antoineuldry/Documents/GitHub/API/API-2021-SMTP/config/resources/Configuration");
+        victims = loadAddressesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Victims");
+        messages = loadMessagesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Messages");
+        loadProperties("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Configuration");
     }
 
     private void loadProperties(String fileName) throws IOException {
