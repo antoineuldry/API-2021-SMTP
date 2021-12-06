@@ -13,11 +13,6 @@ public class SmtpClient implements ISmtpClient{
     private final String smtpServerAddress;
     private final int smtpServerPort;
 
-    private Socket socket;
-    private BufferedReader reader;
-    private PrintWriter writer;
-
-
     public SmtpClient(String smtpServerDomain, int smtpServerPort){
         this.smtpServerAddress = smtpServerDomain;
         this.smtpServerPort = smtpServerPort;
@@ -31,9 +26,8 @@ public class SmtpClient implements ISmtpClient{
         Socket socket = new Socket(smtpServerAddress, smtpServerPort);
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
-        String line = reader.readLine();
         String CRLF = "\r\n";
-
+        String line = reader.readLine();
         LOG.info((line));
 
         writer.write("EHLO localhost" + CRLF);
@@ -58,8 +52,17 @@ public class SmtpClient implements ISmtpClient{
         if(!line.endsWith("OK"))
             throw new IOException(ERROR);
 
-        for(String s : mail.getTo()){
-            writer.write("RCPT TO:" + s + CRLF);
+        for(String to : mail.getTo()){
+            writer.write("RCPT TO:" + to + CRLF);
+            writer.flush();
+            line = reader.readLine();
+            LOG.info(line);
+            if(!line.endsWith("OK"))
+                throw new IOException(ERROR);
+        }
+
+        for(String cc : mail.getCc()){
+            writer.write("RCPT TO:" + cc + CRLF);
             writer.flush();
             line = reader.readLine();
             LOG.info(line);
@@ -86,8 +89,6 @@ public class SmtpClient implements ISmtpClient{
         writer.write(CRLF);
         writer.flush();
 
-
-
         writer.write("Cc : " + mail.getCc()[0]);
         for (int j = 0; j < mail.getCc().length; ++j){
             writer.write(", " + mail.getCc()[j]);
@@ -95,7 +96,8 @@ public class SmtpClient implements ISmtpClient{
         writer.write(CRLF);
         writer.flush();
 
-        writer.write(mail.getSubject() + CRLF);
+
+        writer.write("Subject : " + mail.getSubject() + CRLF);
         writer.flush();
         line = reader.readLine();
         LOG.info(line);

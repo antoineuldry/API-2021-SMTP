@@ -7,6 +7,14 @@ public class Mail {
     private String[] cc = new String[0];
     private String subject;
     private String messageBody;
+    private String index = ":";
+
+    public Mail(){}
+
+    public Mail(String message){
+        subject = message.substring(0, message.indexOf(index));
+        messageBody = message.substring(message.indexOf(index), message.indexOf("\r\n\r\n"));
+    }
 
     public String getFrom(){
         return from;
