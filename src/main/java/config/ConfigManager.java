@@ -19,7 +19,7 @@ public class ConfigManager implements IConfigManager{
     private List<Person> witnessesToCC;
 
     public ConfigManager() throws IOException {
-        victims = loadAddressesFromFile("./ressources/victims.txt");
+        victims = loadAddressesFromFile("./ressources/Victims.txt");
         messages = loadMessagesFromFile("./ressources/Messages/message1.txt");
         message2 = loadMessagesFromFile("./ressources/Messages/message2.txt");
         loadPropteries("./ressources/Configuration.properties");
