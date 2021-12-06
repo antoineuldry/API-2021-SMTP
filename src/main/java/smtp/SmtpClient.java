@@ -35,9 +35,10 @@ public class SmtpClient implements ISmtpClient{
         LOG.info((line));
 
         writer.write("EHLO localhost" + CRLF);
-        LOG.info(line =reader.readLine());
         writer.flush();
 
+        line = reader.readLine();
+        LOG.info(line);
         if(!line.startsWith("250"))
             throw new IOException("SMTP error : line doesn't start with 250");
 
@@ -62,24 +63,23 @@ public class SmtpClient implements ISmtpClient{
          line = reader.readLine();
          LOG.info(line);
 
+         writer.write("Content-Type: text/plain; charset=\"utf-8\"\r\n");
+
          writer.write("From : " + mail.getFrom() + CRLF);
 
-         writer.write("To : ");
-         for (int i = 0; i < mail.getTo().length; ++i){
-             if(i < mail.getTo().length - 1)
-                 writer.write(mail.getTo()[i] + ", ");
-             else
-                 writer.write(mail.getTo()[i] + CRLF);
+         writer.write("To : " + mail.getTo()[0]);
+         for (int i = 1; i < mail.getTo().length; ++i){
+             writer.write(", " + mail.getTo()[i]);
          }
+         writer.write(CRLF);
          writer.flush();
 
-         writer.write("CC : ");
+
+         writer.write("CC : " + mail.getCc()[0]);
          for (int j = 0; j < mail.getCc().length; ++j){
-             if(j < mail.getCc().length -1){
-                 writer.write(mail.getCc()[j] + ", ");
-             }else
-                 writer.write(mail.getCc()[j] + CRLF);
+             writer.write(", " + mail.getCc()[j]);
          }
+         writer.write(CRLF);
          writer.flush();
 
          writer.write(mail.getSubject() + CRLF);
