@@ -3,6 +3,7 @@ package smtp;
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.logging.Logger;
 import model.mail.Mail;
 
@@ -91,8 +92,7 @@ public class SmtpClient implements ISmtpClient{
         writer.write(CRLF);
         writer.flush();
 
-
-        writer.write("Subject : " + mail.getSubject() + CRLF);
+        writer.write("Subject : " + String.format(mail.getSubject(), "=?utf-8?B?%s?=", Base64.getEncoder().encodeToString(mail.getSubject().getBytes(StandardCharsets.UTF_8))) + CRLF);
         writer.flush();
 
         writer.write(mail.getMessageBody() + CRLF);
