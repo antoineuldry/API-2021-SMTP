@@ -1,9 +1,6 @@
 package smtp;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
@@ -11,15 +8,15 @@ import model.mail.Mail;
 
 public class SmtpClient implements ISmtpClient{
 
-    private final String CRLF = "\r\n";
     private static final Logger LOG = Logger.getLogger(SmtpClient.class.getName());
 
     private final String smtpServerDomain;
     private final int smtpServerPort;
 
     private Socket socket;
-    private PrintWriter writer;
     private BufferedReader reader;
+    private PrintWriter writer;
+
 
     public SmtpClient(String smtpServerDomain, int smtpServerPort){
         this.smtpServerDomain = smtpServerDomain;
@@ -29,10 +26,19 @@ public class SmtpClient implements ISmtpClient{
     @Override
     public void sendMail(Mail mail) throws IOException{
         LOG.info("Sending mail via SMTP");
-        Socket socket = new Socket(smtpServerDomain, smtpServerPort);
+        socket = new Socket(smtpServerDomain, smtpServerPort);
         writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
+        reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
         String line = reader.readLine();
+        String CRLF = "\r\n";
+
         LOG.info((line));
+
+        writer.print("EHLO localhost");
+        writer.write(CRLF);
+        line = reader.readLine();
+        LOG.info(line);
+
          if(!line.startsWith("250"))
              throw new IOException("SMTP error : line doesn't start with 250");
 
@@ -43,7 +49,7 @@ public class SmtpClient implements ISmtpClient{
 
          writer.write("MAIL FROM: ");
          writer.write(mail.getFrom());
-         writer.write((CRLF));
+         writer.write(CRLF);
 
          for(String s : mail.getTo()){
              writer.write(("RCPT TO: "));

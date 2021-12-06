@@ -19,10 +19,10 @@ public class ConfigManager implements IConfigManager{
     private List<Person> witnessesToCC;
 
     public ConfigManager() throws IOException {
-        victims = loadAddressesFromFile("./ressources/Victims.txt");
-        messages = loadMessagesFromFile("./ressources/Messages/message1.txt");
-        message2 = loadMessagesFromFile("./ressources/Messages/message2.txt");
-        loadPropteries("./ressources/Configuration.properties");
+        victims = loadAddressesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Victims");
+        messages = loadMessagesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Messages\\message1");
+        message2 = loadMessagesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Messages\\message2");
+        loadPropteries("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Configuration");
     }
 
     private void loadPropteries(String fileName) throws IOException {
@@ -31,7 +31,7 @@ public class ConfigManager implements IConfigManager{
         properties.load(fis);
         this.smtpServerAddress = properties.getProperty("smtpServerAddress");
         this.smtpServerPort = Integer.parseInt(properties.getProperty("smtpServerPort"));
-        this.numberOfGroups = Integer.parseInt(properties.getProperty("numberOfGroups"));
+        this.numberOfGroups = Integer.parseInt(properties.getProperty("nbOfGroups"));
 
         this.witnessesToCC = new ArrayList<>();
         String witnesses = properties.getProperty("witnessesToCC");
