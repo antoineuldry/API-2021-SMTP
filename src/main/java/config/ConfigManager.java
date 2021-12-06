@@ -22,10 +22,10 @@ public class ConfigManager implements IConfigManager{
         victims = loadAddressesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Victims");
         messages = loadMessagesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Messages\\message1");
         message2 = loadMessagesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Messages\\message2");
-        loadPropteries("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Configuration");
+        loadProperties("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Configuration");
     }
 
-    private void loadPropteries(String fileName) throws IOException {
+    private void loadProperties(String fileName) throws IOException {
         FileInputStream fis = new FileInputStream(fileName);
         Properties properties = new Properties();
         properties.load(fis);
