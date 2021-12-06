@@ -7,7 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Random;
 
 public class ConfigManager implements IConfigManager{
     private String smtpServerAddress;
@@ -19,9 +18,9 @@ public class ConfigManager implements IConfigManager{
     private static  boolean count = false;
 
     public ConfigManager() throws IOException {
-        victims = loadAddressesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Victims");
-        messages = loadMessagesFromFile("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Messages\\message1");
-        loadProperties("C:\\Heig-vd\\API\\API-2021-SMTP\\config\\resources\\Configuration");
+        victims = loadAddressesFromFile("/Users/antoineuldry/Documents/GitHub/API/API-2021-SMTP/config/resources/Victims");
+        messages = loadMessagesFromFile("/Users/antoineuldry/Documents/GitHub/API/API-2021-SMTP/config/resources/Messages");
+        loadProperties("/Users/antoineuldry/Documents/GitHub/API/API-2021-SMTP/config/resources/Configuration");
     }
 
     private void loadProperties(String fileName) throws IOException {
@@ -61,11 +60,11 @@ public class ConfigManager implements IConfigManager{
         try (FileInputStream fis = new FileInputStream(fileName)) {
             InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
             try (BufferedReader reader = new BufferedReader(isr)) {
-                result = new ArrayList<String>();
+                result = new ArrayList<>();
                 String line = reader.readLine();
                 while(line != null) {
                     StringBuilder body = new StringBuilder();
-                    while ((line != null) && (!line.equals("=="))) {
+                    while ((line != null) && (!line.equals("MESSAGE_END"))) {
                         body.append(line);
                         body.append("\r\n");
                         line = reader.readLine();

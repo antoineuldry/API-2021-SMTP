@@ -21,6 +21,7 @@ public class SmtpClient implements ISmtpClient{
     @Override
     public void sendMail(Mail mail) throws IOException{
         String ERROR = "Communication error with server!";
+        String ERROR1 = "error no such user here";
 
         LOG.info("Sending mail via SMTP");
         Socket socket = new Socket(smtpServerAddress, smtpServerPort);
@@ -28,19 +29,16 @@ public class SmtpClient implements ISmtpClient{
         BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
         String CRLF = "\r\n";
         String line = reader.readLine();
-        LOG.info((line));
 
         writer.write("EHLO localhost" + CRLF);
         writer.flush();
 
         line = reader.readLine();
-        LOG.info(line);
         if(!line.startsWith("250"))
             throw new IOException("SMTP error : line doesn't start with 250");
 
         while(line.startsWith("250-")){
             line = reader.readLine();
-            LOG.info(line);
         }
 
         writer.write("MAIL FROM:");
@@ -48,35 +46,30 @@ public class SmtpClient implements ISmtpClient{
         writer.flush();
 
         line = reader.readLine();
-        LOG.info(line);
-        if(!line.endsWith("OK"))
-            throw new IOException(ERROR);
+        //if(!line.endsWith("OK")) throw new IOException(ERROR);
 
         for(String to : mail.getTo()){
             writer.write("RCPT TO:" + to + CRLF);
             writer.flush();
             line = reader.readLine();
             LOG.info(line);
-            if(!line.endsWith("OK"))
+            if(!line.startsWith("250")) {
                 throw new IOException(ERROR);
+            }
         }
 
         for(String cc : mail.getCc()){
             writer.write("RCPT TO:" + cc + CRLF);
             writer.flush();
             line = reader.readLine();
-            LOG.info(line);
-            if(!line.endsWith("OK"))
-                throw new IOException(ERROR);
+            if(!line.startsWith("250")) throw new IOException(ERROR);
         }
 
         writer.write("DATA" + CRLF);
         writer.flush();
         line = reader.readLine();
-        LOG.info(line);
 
-        if(!line.startsWith("354"))
-            throw new IOException(ERROR);
+        if(!line.startsWith("354")) throw new IOException(ERROR);
 
         writer.write("Content-Type: text/plain; charset=\"utf-8\"\r\n");
 
@@ -89,9 +82,11 @@ public class SmtpClient implements ISmtpClient{
         writer.write(CRLF);
         writer.flush();
 
-        writer.write("Cc : " + mail.getCc()[0]);
-        for (int j = 0; j < mail.getCc().length; ++j){
-            writer.write(", " + mail.getCc()[j]);
+        if(mail.getCc().length != 0) {
+            writer.write("Cc : " + mail.getCc()[0]);
+            for (int j = 0; j < mail.getCc().length; ++j) {
+                writer.write(", " + mail.getCc()[j]);
+            }
         }
         writer.write(CRLF);
         writer.flush();
@@ -99,24 +94,19 @@ public class SmtpClient implements ISmtpClient{
 
         writer.write("Subject : " + mail.getSubject() + CRLF);
         writer.flush();
-        line = reader.readLine();
-        LOG.info(line);
 
-        LOG.info(mail.getMessageBody());
         writer.write(mail.getMessageBody() + CRLF);
         writer.write("." + CRLF);
         writer.flush();
         line = reader.readLine();
-        LOG.info(line);
 
-        if(!line.endsWith("OK"))
-            throw new IOException(ERROR);
+        if(!line.startsWith("250")) throw new IOException(ERROR);
 
         writer.write("QUIT" + CRLF);
         writer.flush();
+        line = reader.readLine();
 
-        if(!line.startsWith("221"))
-            throw new IOException(ERROR);
+        if(!line.startsWith("221")) throw new IOException(ERROR);
 
         writer.close();
         reader.close();

@@ -48,13 +48,16 @@ public class Prank {
     public Mail generateMailMessage() {
         Mail msg = new Mail();
 
-        msg.setMessageBody(this.message + "\r\n" + victimSender.getFirstName());
+        msg.setMessageBody(this.message + "\r\n" + victimSender.getMailAddress());
         String[] to = victimRecipients.stream()
                 .map(Person::getMailAddress)
                 .collect(Collectors.toList())
                 .toArray(new String[]{});
         //msg.setCc(cc);
         msg.setFrom(victimSender.getMailAddress());
+        msg.setTo(to);
+        msg.setSubject("IMPORTANT");
+
         return msg;
     }
 }
