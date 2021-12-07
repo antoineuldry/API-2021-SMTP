@@ -16,10 +16,6 @@ public class ConfigManager implements IConfigManager {
     private int numberOfGroups;
     private List<Person> witnessesToCC;
 
-    /**
-     * Constructeur de la classe
-     * @throws IOException lors d'une erreur de manipulation
-     */
     public ConfigManager() throws IOException {
         //Config Path
         victims = loadAddressesFromFile("./config/resources/Victims");
@@ -28,11 +24,7 @@ public class ConfigManager implements IConfigManager {
 
     }
 
-    /**
-     *
-     * @param fileName
-     * @throws IOException lors d'une erreur de manipulation
-     */
+
     private void loadProperties(String fileName) throws IOException {
         FileInputStream fis = new FileInputStream(fileName);
         Properties properties = new Properties();
@@ -51,12 +43,7 @@ public class ConfigManager implements IConfigManager {
         }
     }
 
-    /**
-     *
-     * @param fileName Nom du fichier
-     * @return list contenant des Person
-     * @throws IOException lors d'une erreur de manipulation
-     */
+
     private List<Person> loadAddressesFromFile(String fileName) throws IOException {
         List<Person> result;
         try (FileInputStream fis = new FileInputStream(fileName)) {
@@ -73,12 +60,6 @@ public class ConfigManager implements IConfigManager {
         return result;
     }
 
-    /**
-     *
-     * @param fileName
-     * @return
-     * @throws IOException lors d'une erreur de manipulation
-     */
     private List<String> loadMessagesFromFile(String fileName) throws IOException {
         List<String> result;
         try (FileInputStream fis = new FileInputStream(fileName)) {

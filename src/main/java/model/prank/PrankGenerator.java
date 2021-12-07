@@ -9,15 +9,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Classe qui s'occupe de générer les groupes de victimes et les pranks à envoyer
+ */
 public class PrankGenerator {
     private static final Logger LOG = Logger.getLogger(PrankGenerator.class.getName());
 
     private final IConfigManager configManager;
 
+    /**
+     * Constructeur de la classe
+     * @param configManager manager qui s'occupe de traiter les fichiers de configuration
+     */
     public PrankGenerator(IConfigManager configManager) {
         this.configManager = configManager;
     }
 
+    /**
+     * Méthode qui s'occupe de générer les pranks à envoyer par mail et à qui
+     * @return la liste de prank à envoyer séparer entre chaque groupe
+     */
     public List<Prank> generatePranks() {
         List<Prank> pranks = new ArrayList<>();
         int minPersonGroups = 3;
@@ -55,6 +66,12 @@ public class PrankGenerator {
         return pranks;
     }
 
+    /**
+     * Méthode qui crée les groupes de victimes
+     * @param victims liste de victimes à séparer par groupe
+     * @param numberOfGroups nombre de groupes qu'il faut créer
+     * @return une liste des différents groupe de victimes
+     */
     public List<Group> generateGroups(List<Person> victims, int numberOfGroups) {
         List<Person> availableVictims = new ArrayList<>(victims);
         Collections.shuffle(availableVictims);
