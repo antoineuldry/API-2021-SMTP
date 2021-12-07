@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Classe qui permet de définir les différent aspect de nos faux mails
+ * comme créer la liste des victimes, l'émetteur qui sera piéger, etc.
+ */
 public class Prank {
     private Person victimSender;
     private final List<Person> victimRecipients = new ArrayList<>();
@@ -14,32 +18,32 @@ public class Prank {
     private String message;
 
     /**
-     *
-     * @param victimSender
+     * Méthode qui permet de définir qui est l'émetteur victime
+     * @param victimSender Person qui est l'émetteur victime
      */
     public void setVictimSender(Person victimSender) {
         this.victimSender = victimSender;
     }
 
     /**
-     *
-     * @return
+     * Méthode qui permet d'obtenir le message du mail
+     * @return String qui est le message
      */
     public String getMessage() {
         return message;
     }
 
     /**
-     *
-     * @param message
+     * Méthode qui défini le message à envoyer
+     * @param message String qui correspond au message
      */
     public void setMessage(String message) {
         this.message = message;
     }
 
     /**
-     * Méthode qui ajoute les victimes
-     * @param victims
+     * Méthode qui ajoute les victimes dans une liste
+     * @param victims la liste qui contient les victimes
      */
     public void addVictimRecipients(List<Person> victims) {
         victimRecipients.addAll(victims);
@@ -47,7 +51,7 @@ public class Prank {
 
     /**
      * Méthode qui ajoute les personne en copie dans une liste
-     * @param witnesses la List des personne en copies
+     * @param witnesses la liste des personne en copies
      */
     public void addWitnessRecipients(List<Person> witnesses) {
         witnessRecipients.addAll(witnesses);

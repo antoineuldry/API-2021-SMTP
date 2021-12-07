@@ -1,6 +1,6 @@
 smtpServerAddress = localhost
 smtpServerPort = 2021
 
-nbOfGroups = 3
+nbOfGroups = 4
 
 witnessesToCC = andre.marquesnora@heig-vd.ch
