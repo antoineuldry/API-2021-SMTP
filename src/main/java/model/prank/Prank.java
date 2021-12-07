@@ -12,7 +12,6 @@ public class Prank {
     private final List<Person> victimRecipients = new ArrayList<>();
     private final List<Person> witnessRecipients = new ArrayList<>();
     private String message;
-    private String subject;
 
     public Person getVictimSender() {
         return victimSender;
@@ -28,14 +27,6 @@ public class Prank {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getSubject() {
-        return subject;
     }
 
     public void addVictimRecipients(List<Person> victims) {
@@ -57,7 +48,6 @@ public class Prank {
     public Mail generateMailMessage() {
         Mail msg = new Mail();
 
-        msg.setMessageBody(this.message + "\r\n" + victimSender.getMailAddress());
         String[] to = victimRecipients.stream()
                 .map(Person::getMailAddress)
                 .collect(Collectors.toList())
@@ -67,11 +57,15 @@ public class Prank {
                 .collect(Collectors.toList())
                 .toArray(new String[]{});
 
-        msg.setCc(cc);
+        // split "\\r", 2 le message --> 1ère ligne sujet
+        // puis set subject et body
+        String[] subjectBody = getMessage().split("\r", 2);
+        msg.setSubject(subjectBody[0]);
+        msg.setMessageBody(subjectBody[1]);
+
         msg.setFrom(victimSender.getMailAddress());
         msg.setTo(to);
-        // TODO : A changer ? pas en dur ? ;)
-        msg.setSubject("TO CHANGE");
+        msg.setCc(cc);
 
         return msg;
     }
