@@ -8,27 +8,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class ConfigManager implements IConfigManager{
+public class ConfigManager implements IConfigManager {
     private String smtpServerAddress;
     private int smtpServerPort;
     private final List<Person> victims;
     private final List<String> messages;
     private int numberOfGroups;
     private List<Person> witnessesToCC;
-    private static boolean count = false;
 
+    /**
+     * Constructeur de la classe
+     * @throws IOException lors d'une erreur de manipulation
+     */
     public ConfigManager() throws IOException {
-        // MacOS Paths
+        //Config Path
         victims = loadAddressesFromFile("./config/resources/Victims");
         messages = loadMessagesFromFile("./config/resources/Messages");
         loadProperties("./config/resources/Configuration");
 
-        // Windows Paths
-        //victims = loadAddressesFromFile("./config/resources/Victims");
-        //messages = loadMessagesFromFile("./config/resources/Messages");
-        //loadProperties("./config/resources/Configuration");
     }
 
+    /**
+     *
+     * @param fileName
+     * @throws IOException lors d'une erreur de manipulation
+     */
     private void loadProperties(String fileName) throws IOException {
         FileInputStream fis = new FileInputStream(fileName);
         Properties properties = new Properties();
@@ -36,6 +40,8 @@ public class ConfigManager implements IConfigManager{
         this.smtpServerAddress = properties.getProperty("smtpServerAddress");
         this.smtpServerPort = Integer.parseInt(properties.getProperty("smtpServerPort"));
         this.numberOfGroups = Integer.parseInt(properties.getProperty("nbOfGroups"));
+        if(numberOfGroups < 1)
+            throw new IOException("Number of groups should be higher than 0");
 
         this.witnessesToCC = new ArrayList<>();
         String witnesses = properties.getProperty("witnessesToCC");
@@ -45,6 +51,12 @@ public class ConfigManager implements IConfigManager{
         }
     }
 
+    /**
+     *
+     * @param fileName Nom du fichier
+     * @return list contenant des Person
+     * @throws IOException lors d'une erreur de manipulation
+     */
     private List<Person> loadAddressesFromFile(String fileName) throws IOException {
         List<Person> result;
         try (FileInputStream fis = new FileInputStream(fileName)) {
@@ -52,7 +64,7 @@ public class ConfigManager implements IConfigManager{
             try (BufferedReader reader = new BufferedReader(isr)) {
                 result = new ArrayList<>();
                 String address = reader.readLine();
-                while(address != null) {
+                while (address != null) {
                     result.add(new Person(address));
                     address = reader.readLine();
                 }
@@ -61,6 +73,12 @@ public class ConfigManager implements IConfigManager{
         return result;
     }
 
+    /**
+     *
+     * @param fileName
+     * @return
+     * @throws IOException lors d'une erreur de manipulation
+     */
     private List<String> loadMessagesFromFile(String fileName) throws IOException {
         List<String> result;
         try (FileInputStream fis = new FileInputStream(fileName)) {
@@ -68,7 +86,7 @@ public class ConfigManager implements IConfigManager{
             try (BufferedReader reader = new BufferedReader(isr)) {
                 result = new ArrayList<>();
                 String line = reader.readLine();
-                while(line != null) {
+                while (line != null) {
                     StringBuilder body = new StringBuilder();
                     while ((line != null) && (!line.equals("MESSAGE_END"))) {
                         body.append(line);
@@ -107,8 +125,10 @@ public class ConfigManager implements IConfigManager{
     public int getNumberOfGroups() {
         return numberOfGroups;
     }
+
     @Override
     public List<Person> getWitnessesToCC() {
         return witnessesToCC;
     }
+
 }

@@ -20,6 +20,7 @@ public class PrankGenerator {
 
     public List<Prank> generatePranks() {
         List<Prank> pranks = new ArrayList<>();
+        int minPersonGroups = 3;
 
         List<String> messages = configManager.getMessages();
         int messageIndex = 0;
@@ -28,7 +29,7 @@ public class PrankGenerator {
         int numberOfVictims = configManager.getVictims().size();
 
         // There should be at least 3 victims per group
-        if(numberOfVictims / numberOfGroups < configManager.getNumberOfGroups()) {
+        if(numberOfVictims < minPersonGroups * numberOfGroups) {
             numberOfGroups = numberOfVictims / configManager.getNumberOfGroups();
             LOG.warning("Not enough victims to generate the desired number of groups (max groups " + numberOfGroups + ")");
         }

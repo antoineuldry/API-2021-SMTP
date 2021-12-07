@@ -18,5 +18,4 @@ public class MailRobot {
             smtpClient.sendMail(prank.generateMailMessage());
         }
     }
-
 }

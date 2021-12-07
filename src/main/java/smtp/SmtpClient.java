@@ -7,6 +7,9 @@ import java.util.Base64;
 import java.util.logging.Logger;
 import model.mail.Mail;
 
+/**
+ * Classe qui implémente l'interface qui s'occupe du client du protocole SMTP
+ */
 public class SmtpClient implements ISmtpClient{
 
     private static final Logger LOG = Logger.getLogger(SmtpClient.class.getName());
@@ -14,6 +17,11 @@ public class SmtpClient implements ISmtpClient{
     private final String smtpServerAddress;
     private final int smtpServerPort;
 
+    /**
+     * Constructeur de la classe
+     * @param smtpServerDomain l'adresse du serveur SMTP
+     * @param smtpServerPort le port du serveur SMTP
+     */
     public SmtpClient(String smtpServerDomain, int smtpServerPort){
         this.smtpServerAddress = smtpServerDomain;
         this.smtpServerPort = smtpServerPort;
@@ -48,6 +56,7 @@ public class SmtpClient implements ISmtpClient{
         writer.flush();
 
         line = reader.readLine();
+        LOG.info(line);
         if(!line.startsWith("250")) throw new IOException(ERROR);
 
         for(String to : mail.getTo()){
@@ -68,7 +77,9 @@ public class SmtpClient implements ISmtpClient{
 
         writer.write("DATA" + CRLF);
         writer.flush();
+
         line = reader.readLine();
+        LOG.info(line);
 
         if(!line.startsWith("354")) throw new IOException(ERROR);
 
@@ -106,6 +117,7 @@ public class SmtpClient implements ISmtpClient{
         writer.write("QUIT" + CRLF);
         writer.flush();
         line = reader.readLine();
+        LOG.info(line);
 
         if(!line.startsWith("221")) throw new IOException(ERROR);
 
