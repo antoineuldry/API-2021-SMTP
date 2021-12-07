@@ -3,16 +3,10 @@ package model.mail;
 
 public class Person {
 
-    private String mailAddress;
-
-    public Person(){}
+    private final String mailAddress;
 
     public Person(String mailAddress){
         this.mailAddress = mailAddress;
-    }
-
-    public void setMailAddress(String address){
-        this.mailAddress = address;
     }
 
     public String getMailAddress(){

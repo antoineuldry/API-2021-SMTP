@@ -13,10 +13,6 @@ public class Prank {
     private final List<Person> witnessRecipients = new ArrayList<>();
     private String message;
 
-    public Person getVictimSender() {
-        return victimSender;
-    }
-
     public void setVictimSender(Person victimSender) {
         this.victimSender = victimSender;
     }
@@ -35,14 +31,6 @@ public class Prank {
 
     public void addWitnessRecipients(List<Person> witnesses) {
         witnessRecipients.addAll(witnesses);
-    }
-
-    public List<Person> getVictimRecipients() {
-        return victimRecipients;
-    }
-
-    public List<Person> getWitnessRecipients() {
-        return witnessRecipients;
     }
 
     public Mail generateMailMessage() {
