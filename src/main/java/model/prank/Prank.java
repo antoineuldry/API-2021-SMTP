@@ -57,8 +57,6 @@ public class Prank {
                 .collect(Collectors.toList())
                 .toArray(new String[]{});
 
-        // split "\\r", 2 le message --> 1ère ligne sujet
-        // puis set subject et body
         String[] subjectBody = getMessage().split("\r", 2);
         msg.setSubject(subjectBody[0]);
         msg.setMessageBody(subjectBody[1]);

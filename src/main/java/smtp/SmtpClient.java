@@ -91,8 +91,8 @@ public class SmtpClient implements ISmtpClient{
         }
         writer.write(CRLF);
         writer.flush();
-        
-        writer.write("Subject : " + String.format(mail.getSubject(), "=?utf-8?B?%s?=", Base64.getEncoder().encodeToString(mail.getSubject().getBytes(StandardCharsets.UTF_8))) + CRLF);
+
+        writer.write("Subject : " + String.format("=?utf-8?B?%s?=", Base64.getEncoder().encodeToString(mail.getSubject().getBytes(StandardCharsets.UTF_8))) + CRLF);
         writer.write(CRLF);
         writer.flush();
 
