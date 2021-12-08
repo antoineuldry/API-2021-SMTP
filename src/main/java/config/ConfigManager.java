@@ -8,13 +8,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * Classe de configuration
+ * - Serveur
+ * - Mails : Emetteur / Récepteur / Copie
+ * - Nombre de groupe
+ */
 public class ConfigManager implements IConfigManager {
-    private String smtpServerAddress;
-    private int smtpServerPort;
-    private final List<Person> victims;
-    private final List<String> messages;
-    private int numberOfGroups;
-    private List<Person> witnessesToCC;
+
+    // Variables
+    private String smtpServerAddress;       // Adresse du serveur SMTP
+    private int smtpServerPort;             // Port du serveur SMTP
+    private final List<Person> victims;     // Liste des victimes
+    private final List<String> messages;    // Liste des messages
+    private List<Person> witnessesToCC;     // Liste des personnes en copie
+    private int numberOfGroups;             // Nombre de groupe souhaité
 
     /**
      * Constructeur de la classe
@@ -29,8 +37,8 @@ public class ConfigManager implements IConfigManager {
     }
 
     /**
-     *
-     * @param fileName
+     * Chargement des données de configuration
+     * @param fileName : Fichier de config du serveur
      * @throws IOException lors d'une erreur de manipulation
      */
     private void loadProperties(String fileName) throws IOException {
@@ -52,9 +60,9 @@ public class ConfigManager implements IConfigManager {
     }
 
     /**
-     *
-     * @param fileName Nom du fichier
-     * @return list contenant des Person
+     * Chargement des adresses emails depuis le fichier, ligne par ligne
+     * @param fileName : Fichier qui contient les adresses emails
+     * @return : Liste contenant les adresses de type Person
      * @throws IOException lors d'une erreur de manipulation
      */
     private List<Person> loadAddressesFromFile(String fileName) throws IOException {
@@ -74,9 +82,9 @@ public class ConfigManager implements IConfigManager {
     }
 
     /**
-     *
-     * @param fileName
-     * @return
+     * Chargement des messages à l'aide d'un séparateur (MESSAGE_END)
+     * @param fileName : Fichier qui contient les messages
+     * @return : Liste de type String avec les différents messages
      * @throws IOException lors d'une erreur de manipulation
      */
     private List<String> loadMessagesFromFile(String fileName) throws IOException {
@@ -101,6 +109,7 @@ public class ConfigManager implements IConfigManager {
         return result;
     }
 
+    /* ------------------- GETTERS ------------------- */
     @Override
     public List<Person> getVictims() {
         return victims;
@@ -130,5 +139,5 @@ public class ConfigManager implements IConfigManager {
     public List<Person> getWitnessesToCC() {
         return witnessesToCC;
     }
-
+    /* -------------------- END - GETTERS -------------------- */
 }

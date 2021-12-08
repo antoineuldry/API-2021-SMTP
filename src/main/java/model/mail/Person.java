@@ -5,7 +5,7 @@ package model.mail;
  */
 public class Person {
 
-    private final String mailAddress;
+    private final String mailAddress;       // Adresse mail (représentant la personne)
 
     /**
      * Constructeur de la classe
@@ -15,6 +15,7 @@ public class Person {
         this.mailAddress = mailAddress;
     }
 
+    /* ------------------- GETTER ------------------- */
     /**
      * Méthode qui permet d'obtenir l'adresse mail de la personne
      * @return String qui est l'adresse de la personne
@@ -23,4 +24,5 @@ public class Person {
         return mailAddress;
     }
 
+    /* ------------------- END - GETTER ------------------- */
 }

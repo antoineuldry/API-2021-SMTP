@@ -9,6 +9,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Classe de fonctionnement du programme
+ * (gestion des groupes de diffusions et des mails "jokes" à diffuser)
+ */
 public class PrankGenerator {
     private static final Logger LOG = Logger.getLogger(PrankGenerator.class.getName());
 
@@ -18,6 +22,10 @@ public class PrankGenerator {
         this.configManager = configManager;
     }
 
+    /**
+     * Méthode qui gère le fonctionnement du programme principal (envoie de mails "jokes")
+     * @return : Liste des mails complets (emetteur, récepteurs, récepteurs copie, sujet, message)
+     */
     public List<Prank> generatePranks() {
         List<Prank> pranks = new ArrayList<>();
         int minPersonGroups = 3;
@@ -55,6 +63,12 @@ public class PrankGenerator {
         return pranks;
     }
 
+    /**
+     * Méthode pour générer les groupes de diffusion des mails (de manière aléatoire)
+     * @param victims : Liste des personnes cibles par groupe
+     * @param numberOfGroups : Nombre de groupe souhaité
+     * @return : Liste des groupes de diffusion
+     */
     public List<Group> generateGroups(List<Person> victims, int numberOfGroups) {
         List<Person> availableVictims = new ArrayList<>(victims);
         Collections.shuffle(availableVictims);

@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe qui crée des groupes pour l'envoie
+ * Classe qui crée les groupes pour la distribution des mails
  */
 public class Group {
 
     private final List<Person> members = new ArrayList<>();
 
     /**
-     * Méthode qui permet d'ajouter une Person
-     * @param person Person à ajouter au groupe
+     * Méthode qui permet d'ajouter une personne à un groupe
+     * @param person : Personne à ajouter au groupe
      */
     public void addMember(Person person){
         members.add(person);
@@ -20,7 +20,7 @@ public class Group {
 
     /**
      * Méthode qui permet d'obtenir les membres du groupe
-     * @return List de Person
+     * @return : La liste des membres d'un groupe
      */
     public List<Person> getMembers(){
         return new ArrayList<>(members);

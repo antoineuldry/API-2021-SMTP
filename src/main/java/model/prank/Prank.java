@@ -8,15 +8,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Classe qui permet de définir les différent aspect de nos faux mails
- * comme créer la liste des victimes, l'émetteur qui sera piéger, etc.
+ * Classe qui permet de définir les différents aspects de nos faux mails
+ * comme créer la liste des victimes, l'émetteur qui sera piégé, etc.
  */
 public class Prank {
-    private Person victimSender;
-    private final List<Person> victimRecipients = new ArrayList<>();
-    private final List<Person> witnessRecipients = new ArrayList<>();
-    private String message;
 
+    // Variables
+    private Person victimSender;                                        // Emetteur du mail
+    private final List<Person> victimRecipients = new ArrayList<>();    // Récepteurs
+    private final List<Person> witnessRecipients = new ArrayList<>();   // Récepteurs en copie
+    private String message;                                             // Message (mail)
+
+    /* ------------------- GETTERS / SETTERS ------------------- */
     /**
      * Méthode qui permet de définir qui est l'émetteur victime
      * @param victimSender Person qui est l'émetteur victime
@@ -41,6 +44,8 @@ public class Prank {
         this.message = message;
     }
 
+    /* ------------------- END - GETTERS / SETTERS ------------------- */
+
     /**
      * Méthode qui ajoute les victimes dans une liste
      * @param victims la liste qui contient les victimes
@@ -50,7 +55,7 @@ public class Prank {
     }
 
     /**
-     * Méthode qui ajoute les personne en copie dans une liste
+     * Méthode qui ajoute les personnes en copie dans une liste
      * @param witnesses la liste des personne en copies
      */
     public void addWitnessRecipients(List<Person> witnesses) {
@@ -58,7 +63,12 @@ public class Prank {
     }
 
     /**
-     * Méthode qui génère chaque aspect d'un mail
+     * Méthode qui construit le contenu du mail
+     * - Emetteur
+     * - Récepteur
+     * - Récepteur copie
+     * - Sujet
+     * - Corps du mail
      * @return Mail qui doit être envoyé
      */
     public Mail generateMailMessage() {

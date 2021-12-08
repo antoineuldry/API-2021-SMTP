@@ -14,8 +14,9 @@ public class SmtpClient implements ISmtpClient{
 
     private static final Logger LOG = Logger.getLogger(SmtpClient.class.getName());
 
-    private final String smtpServerAddress;
-    private final int smtpServerPort;
+    // Variables
+    private final String smtpServerAddress;     // Adresse du serveur SMTP
+    private final int smtpServerPort;           // Port du serveur SMTP
 
     /**
      * Constructeur de la classe
