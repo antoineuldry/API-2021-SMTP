@@ -1,7 +1,6 @@
 package model.prank;
 
 import model.mail.*;
-import model.mail.Person;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,11 +1,12 @@
 package smtp;
 
+import model.mail.Mail;
+
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.logging.Logger;
-import model.mail.Mail;
 
 /**
  * Classe qui implémente l'interface qui s'occupe du client du protocole SMTP
