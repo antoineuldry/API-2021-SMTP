@@ -63,6 +63,9 @@ Ce package est celui qui va générer les groupes de victimes en les séparants 
 
 C'est dans ce package que l'on retrouve notre implémentation du côté client d'un protocole **SMTP**. Il n'y qu'un seul méthode qui ne s'occupe que d'envoyer des mails à un serveur Mock tout en vérifiant que la communication entre le serveur et le client se fait correctement.
 
+### 4.4 MailRobot
+
+C'est la classe qui relie la totalité des autres classes ensemble et s'occupe donc de se connecter au serveur **SMTP**, de générer les mails de prank et d'envoyer le tout au **Mock**. 
 ### 5. Conclusion
 
 Si chaque étape du projet sont effectués correctement et qu'on regarde bien ce que fait chaque chose dans le code ou s'informer sur comment fonctionnent un serveur Mock et Docker, ce dernier est assez simple à mettre en place.
