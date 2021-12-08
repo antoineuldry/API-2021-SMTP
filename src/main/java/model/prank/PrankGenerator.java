@@ -18,6 +18,10 @@ public class PrankGenerator {
 
     private final IConfigManager configManager;
 
+    /**
+     * Constructeur de la classe
+     * @param configManager manager qui s'occupe de traiter les fichiers de configuration
+     */
     public PrankGenerator(IConfigManager configManager) {
         this.configManager = configManager;
     }
