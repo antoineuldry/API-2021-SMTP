@@ -6,7 +6,7 @@ Le but de ce laboratoire est d'initier les étudiants au protocole derrière un 
 
 ## 2. Instruction d'installation
 
-Pour pouvoir utiliser les fonctionnalités de ce repo, dénoter tout d'abord qu'un environnement de dévellopement java est nécéssaire pour lancer l'application, si c'est déjà le cas il suffit de clone ce repo pour commencer votre aventure avec le protocole SMTP. Ensuite installer Docker et pour finir il faut utiliser un Mock server pour tester ce que l'on fait ( MockMock, mailtrap, etc..). Ici on utilise MockMock qui vous est fourni dans comme ``.jar`` dans le repo, pour plus d'information aller sur[MockMock](https://github.com/HEIGVD-Course-API/MockMock).
+Pour pouvoir utiliser les fonctionnalités de ce repo, dénoter tout d'abord qu'un environnement de dévellopement java est nécéssaire pour lancer l'application, si c'est déjà le cas il suffit de clone ce repo pour commencer votre aventure avec le protocole SMTP. Ensuite installer Docker et pour finir il faut utiliser un Mock server pour tester ce que l'on fait ( MockMock, mailtrap, etc..). Ici on utilise MockMock qui vous est fourni dans comme ``.jar`` dans le repo, pour plus d'information aller sur [MockMock](https://github.com/HEIGVD-Course-API/MockMock).
 
 ## 3. Instruction d'utilisation
 
@@ -16,9 +16,21 @@ Dans le directory **config**, vous trouverez 3 fichiers différents:**Configurat
 
 ### 3.1 Mise en place de MockMock
 
+``MockMock`` est un cross-plateforme Mock serveur écrit en java avec une interface web utilisé afin de vérifier le bon fonctionnement de l'envoie de mail mais sans être envoyer au adresse mail fourni en réalité. Cela permet de tester dans notre cas notre client du protocole ``SMTP``.
+
 Commencer par ouvrir une invite de commande sur votre machine et aller sur l'emplacement ou se trouve ce repo. Lorsque c'est fait taper la commande suivante sur l'invite :``java -jar MockMock.jar`` pour le run avec les paramètres par défaut (port : 25 et webInterface : 8282), par contre si vous désirez le lancer avec les paramètres que vous désirez faite la commande suivante :``java -jar MockMock.jar -p 2021 -h 8080``, dans ce cas 2021 est le port et 8080 la webInterface définir dans le fichier des propriétés du repo. Si vous souhaitez changer le port, il vous suffit d'ouvrir le fichier configuration dans config et changer la variable smtpServerPort avec ce que vous désirez. Mais n'oublier de faire de même lorsque vous lancer **MockMock**.
 
 ### 3.2 Utilisation de Docker
+
+Maintenant on va utiliser **Docker** pour lancer notre serveur Mock sans avoir à effectuer à chaque fois l'étape précédente lorsque l'on veut relancer notre ``MockMock``.
+
+Il faut d'abord par commencer à faire son propre Dockerfile comme montré dans le directory Docker, par contre vous pouvez changer les port ou web interface à votre guise mais n'oublier de faire de même sur les configurations pour éviter de ne pas se connecter au bon serveur. 
+
+Normalement il faudrait lancer cette commande sur l'invite de commande ``mvn clean install --file "<path>\MockMock\pom.xml"`` et copier le jar sur le directory Docker du repo, mais ici le jar pour MockMock est déjà sur le repo.
+
+Ensuite, en ligne de commande faire ``docker build -t <yourInput>/mockmock .`` qui va créer les images nécessaire à Docker (notez que le '.' à la fin est essentiel). Puis, lancer une dernière commande qui est ``docker run -d -p 8080:8080 -p 2021:2021 mockmock`` avec les valeurs que vous avez choisi pour le port et l'interface web.
+
+Pour finir, ouvrez **Docker** et vous devriez voir ``MockMock`` qui run. On peut vérifier en allant sur http://localhost:8080/ mais remplacer le numéro de l'interface web avec celui que vous avez choisi.
 
 
 
